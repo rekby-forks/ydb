@@ -8,10 +8,11 @@
 
 Приведенный ниже сценарий запуска использует [git](https://git-scm.com/downloads) и [Go](https://go.dev/doc/install). Предварительно должен быть установлен [{{ ydb-short-name }} Go SDK](../../../reference/ydb-sdk/install.md).
 
-Создайте рабочую директорию и выполните в ней из командной строки команду клонирования репозитория с GitHub:
+Создайте рабочую директорию и выполните в ней из командной строки команду клонирования репозитория с GitHub и перейдите в папку с примером:
 
 ```bash
-git clone https://github.com/ydb-platform/ydb-go-examples/
+git clone https://github.com/ydb-platform/ydb-go-sdk/
+cd ydb-go-sdk/examples/basic/native/query/
 ```
 
 Далее из этой же рабочей директории выполните команду запуска тестового приложения, которая будет отличаться в зависимости от того, к какой базе данных необходимо подключиться.
@@ -25,19 +26,20 @@ git clone https://github.com/ydb-platform/ydb-go-examples/
 ```go
 import (
   // общие импорты из стандартной библиотеки
-  "context"
-  "log"
-  "path"
+	"context"
+	"flag"
+	"fmt"
+	"os"
+	"path"
+	"strings"
+	"time"
 
   // импорты пакетов ydb-go-sdk
-  "github.com/ydb-platform/ydb-go-sdk/v3"
-  "github.com/ydb-platform/ydb-go-sdk/v3/table" // для работы с table-сервисом
-  "github.com/ydb-platform/ydb-go-sdk/v3/table/options" // для работы с table-сервисом
-  "github.com/ydb-platform/ydb-go-sdk/v3/table/result" // для работы с table-сервисом
-  "github.com/ydb-platform/ydb-go-sdk/v3/table/result/named" // для работы с table-сервисом
-  "github.com/ydb-platform/ydb-go-sdk/v3/table/types" // для работы с типами YDB и значениями
-  "github.com/ydb-platform/ydb-go-sdk-auth-environ" // для аутентификации с использованием перменных окружения
-  "github.com/ydb-platform/ydb-go-yc" // для работы с YDB в Яндекс Облаке
+	"github.com/ydb-platform/ydb-go-sdk/v3/table/types" // для работы с типами YDB и значениями
+	environ "github.com/ydb-platform/ydb-go-sdk-auth-environ" // для аутентификации с использованием переменных окружения
+	ydb "github.com/ydb-platform/ydb-go-sdk/v3" // подключение к YDB
+	"github.com/ydb-platform/ydb-go-sdk/v3/query" // для работы с query-сервисом
+	"github.com/ydb-platform/ydb-go-sdk/v3/sugar" // вспомогательные функции для упрощения кода
 )
 ```
 
@@ -46,7 +48,8 @@ import (
 ```go
 ctx := context.Background()
 // строка подключения
-dsn := "grpcs://ydb.serverless.yandexcloud.net:2135/?database=/ru-central1/b1g8skpblkos03malf3s/etn01f8gv9an9sedo9fu"
+dsn := "grpcs://ydb.example.net:2135/?database=/database/path"
+
 // IAM-токен
 token := "t1.9euelZrOy8aVmZKJm5HGjceMkMeVj-..."
 // создаем объект подключения db, является входной точкой для сервисов YDB
@@ -66,10 +69,10 @@ defer db.Close(ctx)
 ```
 
 Объект `db` является входной точкой для работы с сервисами `YDB`.
-Для работы сервисом таблиц следует использовать клиента table-сервиса `db.Table()`.
-Клиент table-сервиса предоставляет `API` для выполнения запросов над таблицами.
-Наиболее востребован метод `db.Table().Do(ctx, op)`, который реализует фоновое создание сессий и повторные попытки выполнить пользовательскую операцию `op`, в которую пользовательскому коду отдается подготовленная сессия.
-Сессия имеет исчерпывающее `API`, позволяющее выполнять `DDL`, `DML`, `DQL` и `TCL` запросы.
+Для работы c сервисом запросов следует использовать клиента query-сервиса `db.Query()`.
+Клиент query-сервиса предоставляет `API` для выполнения запросов над таблицами.
+Наиболее востребован метод `db.Query().Do(ctx, op)`, который реализует фоновое создание сессий и повторные попытки выполнить пользовательскую операцию `op`, в которую пользовательскому коду отдается подготовленная сессия.
+Query-сервис позволяет выполнять `DDL`, `DML`, `DQL` и `TCL` через текстовые запросы.
 
 {% include [steps/02_create_table.md](../_includes/steps/02_create_table.md) %}
 
