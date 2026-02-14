@@ -28,7 +28,7 @@ struct EventTypeFromTEvPtr {
 struct TSchemeLimits {
     // Used for backward compatability in case of old databases without explicit limits
     static constexpr ui64 MaxPathsCompat = 200*1000;
-    static constexpr ui64 MaxObjectsInBackup = 10*1000;
+    static constexpr ui64 MaxObjectsInBackup = 100*100000;
 
     // path
     ui64 MaxDepth = 32;
@@ -39,11 +39,11 @@ struct TSchemeLimits {
     TString ExtraPathSymbolsAllowed = "!\"#$%&'()*+,-.:;<=>?@[\\]^_`{|}~";
 
     // table
-    ui64 MaxTableColumns = 200;
+    ui64 MaxTableColumns = 20000;
     ui64 MaxColumnTableColumns = 10000;
     ui64 MaxTableColumnNameLength = 255;
     ui64 MaxTableKeyColumns = 30;
-    ui64 MaxTableIndices = 20;
+    ui64 MaxTableIndices = 10000;
     ui64 MaxTableCdcStreams = 5;
     ui64 MaxShards = 200*1000; // In each database
     ui64 MaxShardsInPath = 35*1000; // In each path in database
