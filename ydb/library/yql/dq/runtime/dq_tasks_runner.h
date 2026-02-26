@@ -233,7 +233,7 @@ struct TDqTaskRunnerSettings {
 struct TDqTaskRunnerMemoryLimits {
     ui32 ChannelBufferSize = 0;
     ui32 OutputChunkMaxSize = 0;
-    ui32 ChunkSizeLimit = 48_MB;
+    ui32 ChunkSizeLimit = 60_MB;
     TMaybe<ui8> ArrayBufferMinFillPercentage;
     TMaybe<size_t> BufferPageAllocSize;
     IMemoryQuotaManager::TPtr ChannelQuotaManager;

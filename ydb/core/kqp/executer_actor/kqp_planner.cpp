@@ -23,7 +23,7 @@ namespace NKikimr::NKqp {
 #define LOG_E(stream) LOG_ERROR_S(*TlsActivationContext, NKikimrServices::KQP_EXECUTER, "TxId: " << TxId << ". " << "Ctx: " << *UserRequestContext << ". " << stream)
 #define LOG_W(stream) LOG_WARN_S(*TlsActivationContext, NKikimrServices::KQP_EXECUTER, "TxId: " << TxId << ". " << "Ctx: " << *UserRequestContext << ". " << stream)
 
-static std::atomic<ui64> MaxTaskSize = 48_MB;
+static std::atomic<ui64> MaxTaskSize = 60_MB;
 
 void SetMaxTaskSize(ui64 size) {
     MaxTaskSize.store(size, std::memory_order_relaxed);

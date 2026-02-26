@@ -276,6 +276,7 @@ private:
             FORCE_VALUE(PublishStatisticsIntervalSec);
             FORCE_VALUE(MaxTotalChannelBuffersSize);
             FORCE_VALUE(MinChannelBufferSize);
+            FORCE_VALUE(ChannelChunkSizeLimit);
             FORCE_VALUE(MinMemAllocSize);
             FORCE_VALUE(MinMemFreeSize);
 #undef FORCE_VALUE

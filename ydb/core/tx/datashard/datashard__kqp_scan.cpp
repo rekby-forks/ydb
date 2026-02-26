@@ -464,7 +464,7 @@ private:
                 << ", bytes: " << sendBytes << ", rows: " << Rows << ", page faults: " << Result->PageFaults
                 << ", finished: " << Result->Finished << ", pageFault: " << Result->PageFault);
 
-            if (sendBytes >= 48_MB) {
+            if (sendBytes >= 60_MB) {
                 LOG_ERROR_S(*TlsActivationContext, NKikimrServices::TX_DATASHARD, "Query size limit exceeded.");
                 if (finish) {
                     bool sent = Send(ComputeActorId, new TEvKqp::TEvAbortExecution(NYql::NDqProto::StatusIds::PRECONDITION_FAILED,

@@ -31,7 +31,7 @@ struct TDqChannelSettings {
     // Output channels settings (may changed in future)
 
     ui64 MaxChunkBytes = 2_MB;
-    ui64 ChunkSizeLimit = 48_MB;
+    ui64 ChunkSizeLimit = 60_MB;
     IDqChannelStorage::TPtr ChannelStorage;
     TMaybe<ui8> ArrayBufferMinFillPercentage;
     TMaybe<size_t> BufferPageAllocSize;
